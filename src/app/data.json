@@ -1,0 +1,90 @@
+{
+    "totalRowCount": "3",
+    "totalReturnedCount": "3",
+    "businessInfo": [
+      {
+        "rowNumber": "1",
+        "salesOrganizationCode": "GLXCO",
+        "salesOrganizationName": "Galaxy Corp",
+        "salesChannelCode": "GLXWEB",
+        "salesChannelName": "Galaxy Web Sales",
+        "partnerId": "PARGLX1",
+        "partnerName": "Galaxy Corp",
+        "partnerGroupId": "GLXGRP2025001",
+        "partnerGroupName": "GLXGRP2025001",
+        "superChainId": "S000001234",
+        "superChainName": "ORION'S BELT BISTROS",
+        "chainId": "OBB555",
+        "chainEntityId": "987654321",
+        "chainName": "Orion's Belt Cafe",
+        "dbaName": "Orion's Belt Cafe",
+        "legalName": "ORION'S BELT BISTROS LLC",
+        "federalTaxId": "123456789",
+        "chainPhysicalAddress": {
+          "addressType": "Physical Address",
+          "addressLine1": "123 Starburst Lane",
+          "city": "Cosmos",
+          "state": "CA",
+          "postalCode": "90210",
+          "postalCodeExtension": "1111",
+          "country": "01"
+        }
+      },
+      {
+        "rowNumber": "2",
+        "salesOrganizationCode": "SUNFL",
+        "salesOrganizationName": "Sunflower Foods",
+        "salesChannelCode": "SUNFLRET",
+        "salesChannelName": "Sunflower Retail",
+        "partnerId": "PARSUN1",
+        "partnerName": "Sunflower Foods",
+        "partnerGroupId": "SUNGRP2025002",
+        "partnerGroupName": "SUNGRP2025002",
+        "superChainId": "S000005678",
+        "superChainName": "GARDEN FRESH MARKETS",
+        "chainId": "GFM888",
+        "chainEntityId": "876543210",
+        "chainName": "Garden Fresh Grocers",
+        "dbaName": "Garden Fresh Grocers",
+        "legalName": "GARDEN FRESH MARKETS INC",
+        "federalTaxId": "987654321",
+        "chainPhysicalAddress": {
+          "addressType": "Physical Address",
+          "addressLine1": "456 Meadowbrook Dr",
+          "city": "Springfield",
+          "state": "IL",
+          "postalCode": "62704",
+          "postalCodeExtension": "2222",
+          "country": "01"
+        }
+      },
+      {
+        "rowNumber": "3",
+        "salesOrganizationCode": "AQUATEC",
+        "salesOrganizationName": "AquaTech Solutions",
+        "salesChannelCode": "AQUAB2B",
+        "salesChannelName": "AquaTech B2B",
+        "partnerId": "PARAQUA1",
+        "partnerName": "AquaTech Solutions",
+        "partnerGroupId": "AQUAGRP2025003",
+        "partnerGroupName": "AQUAGRP2025003",
+        "superChainId": "S000009101",
+        "superChainName": "OCEANIC GEAR SUPPLY",
+        "chainId": "OGS999",
+        "chainEntityId": "765432109",
+        "chainName": "Oceanic Dive Shop",
+        "dbaName": "Oceanic Dive Shop",
+        "legalName": "OCEANIC GEAR SUPPLY CO",
+        "federalTaxId": "555444333",
+        "chainPhysicalAddress": {
+          "addressType": "Physical Address",
+          "addressLine1": "789 Coral Reef Rd",
+          "city": "Key West",
+          "state": "FL",
+          "postalCode": "33040",
+          "postalCodeExtension": "3333",
+          "country": "01"
+        }
+      }
+    ]
+}
