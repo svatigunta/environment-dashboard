@@ -1,169 +1,195 @@
-<div
-  class="bg-gray-100 dark:bg-gray-900 min-h-screen font-sans text-gray-800 dark:text-gray-200 p-4 sm:p-6 lg:p-8"
->
-  <div class="max-w-7xl mx-auto">
+<div class="bg-gray-100 dark:bg-gray-900 min-h-screen font-sans text-gray-800 dark:text-gray-200">
+  <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
     <!-- Header Section -->
     <header class="mb-8 text-center">
-      <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white">
-        Environment Dashboard
-      </h1>
+      <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
       <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">
-        A real-time overview of our application environments.
+        Environment monitoring and business data management.
       </p>
     </header>
 
-    <!-- Environment Filter Buttons -->
-    <div class="mb-8 flex justify-center flex-wrap gap-2 sm:gap-4">
-      @for (env of availableEnvironments; track env) {
-        <button
-          (click)="selectEnvironment(env)"
-          [ngClass]="{
-            'bg-blue-600 dark:bg-blue-500 text-white scale-105 shadow-lg':
-              selectedEnvironment() === env,
-            'bg-white dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600':
-              selectedEnvironment() !== env,
-          }"
-          class="px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-semibold transition-all duration-200 ease-in-out shadow"
-        >
-          {{ environmentDisplayNames[env] }}
-        </button>
-      }
-    </div>
-
-    <!-- Search Input -->
-    <div class="mb-10 max-w-2xl mx-auto">
-      <div class="relative">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <span class="material-icons text-gray-400" style="font-size: 20px">search</span>
-        </div>
-        <input
-          type="text"
-          (input)="onSearch($event)"
-          placeholder="Search by application name..."
-          class="block w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg py-3 pl-10 pr-3 leading-5 text-gray-900 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-        />
-      </div>
-    </div>
-
-    <!-- Environments Container -->
-    <main class="space-y-12">
-      <!-- Loop through the selected environment -->
-      @for (group of visibleEnvironment(); track group.environment) {
-        <section>
-          <!-- Environment Header -->
-          <div
-            class="mb-6 pb-2 border-b-2"
-            [ngClass]="environmentColors[group.environment].borderColor"
-          >
-            <h2
-              class="text-3xl font-bold"
-              [ngClass]="environmentColors[group.environment].textColor"
-            >
-              {{ environmentDisplayNames[group.environment] }}
-            </h2>
-          </div>
-
-          <!-- Grid for Application Cards -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            @for (app of group.apps; track app.name) {
-              <div
-                class="card bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out flex flex-col overflow-hidden"
+    <!-- Tab Navigation -->
+    <mat-tab-group
+      [(selectedIndex)]="selectedTab"
+      (selectedIndexChange)="onTabChange($event)"
+      class="dashboard-tabs"
+    >
+      <!-- Environment Dashboard Tab -->
+      <mat-tab label="Environment Dashboard">
+        <div class="tab-content">
+          <!-- Environment Filter Buttons -->
+          <div class="mb-8 flex justify-center flex-wrap gap-2 sm:gap-4">
+            @for (env of availableEnvironments; track env) {
+              <button
+                (click)="selectEnvironment(env)"
+                [ngClass]="{
+                  'bg-blue-600 dark:bg-blue-500 text-white scale-105 shadow-lg':
+                    selectedEnvironment() === env,
+                  'bg-white dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600':
+                    selectedEnvironment() !== env,
+                }"
+                class="px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-semibold transition-all duration-200 ease-in-out shadow"
               >
-                <!-- Card Header -->
-                <div
-                  class="p-5 border-b border-gray-200 dark:border-gray-700 flex justify-between items-start"
-                >
-                  <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ app.name }}</h2>
-                  <span
-                    [class]="
-                      app.envType === 'UI'
-                        ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
-                        : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-                    "
-                    class="text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider"
-                  >
-                    {{ app.envType }}
-                  </span>
-                </div>
-
-                <!-- Card Body -->
-                <div class="p-5 flex-grow">
-                  <!-- URL Section -->
-                  <div class="flex flex-col mb-4">
-                    <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">URL</h3>
-                    <div class="flex items-center space-x-2">
-                      <a
-                        [href]="app.url"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="text-blue-500 hover:text-blue-600 dark:hover:text-blue-400 truncate flex-grow"
-                        title="{{ app.url }}"
-                      >
-                        {{ app.url }}
-                      </a>
-                      <button
-                        (click)="copyToClipboard(app.url, app.name)"
-                        [attr.data-app-name]="app.name"
-                        class="copy-btn relative p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition-colors duration-200"
-                        title="Copy URL"
-                      >
-                        <span
-                          class="material-icons text-gray-600 dark:text-gray-300"
-                          style="font-size: 20px"
-                          >content_copy</span
-                        >
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Card Footer with Links -->
-                <div
-                  class="p-5 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700"
-                >
-                  <div class="flex items-center justify-end space-x-4">
-                    <a
-                      [href]="app.sourceCodeUrl"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-gray-500 hover:text-gray-800 dark:hover:text-white transition-colors duration-200"
-                      title="Source Code (GitHub)"
-                    >
-                      <span
-                        class="material-icons text-gray-500 hover:text-gray-800 dark:hover:text-white"
-                        style="font-size: 24px"
-                        >code</span
-                      >
-                    </a>
-                    <a
-                      [href]="app.jenkinsUrl"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-gray-500 hover:text-gray-800 dark:hover:text-white transition-colors duration-200"
-                      title="Jenkins Build"
-                    >
-                      <span
-                        class="material-icons text-gray-500 hover:text-gray-800 dark:hover:text-white"
-                        style="font-size: 24px"
-                        >open_in_new</span
-                      >
-                    </a>
-                  </div>
-                </div>
-              </div>
+                {{ environmentDisplayNames[env] }}
+              </button>
             }
           </div>
 
-          <!-- No Results Message -->
-          @if (group.apps.length === 0) {
-            <div class="text-center py-10 px-6">
-              <p class="text-lg text-gray-500 dark:text-gray-400">
-                No applications found matching your search term.
-              </p>
+          <!-- Search Input -->
+          <div class="mb-10 max-w-2xl mx-auto">
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span class="material-icons text-gray-400" style="font-size: 20px">search</span>
+              </div>
+              <input
+                type="text"
+                (input)="onSearch($event)"
+                placeholder="Search by application name..."
+                class="block w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg py-3 pl-10 pr-3 leading-5 text-gray-900 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
             </div>
-          }
-        </section>
-      }
-    </main>
+          </div>
+
+          <!-- Environments Container -->
+          <main class="space-y-12">
+            <!-- Loop through the selected environment -->
+            @for (group of visibleEnvironment(); track group.environment) {
+              <section>
+                <!-- Environment Header -->
+                <div
+                  class="mb-6 pb-2 border-b-2"
+                  [ngClass]="environmentColors[group.environment].borderColor"
+                >
+                  <h2
+                    class="text-3xl font-bold"
+                    [ngClass]="environmentColors[group.environment].textColor"
+                  >
+                    {{ environmentDisplayNames[group.environment] }}
+                  </h2>
+                </div>
+
+                <!-- Grid for Application Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  @for (app of group.apps; track app.name) {
+                    <div
+                      class="card bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out flex flex-col overflow-hidden"
+                    >
+                      <!-- Card Header -->
+                      <div
+                        class="p-5 border-b border-gray-200 dark:border-gray-700 flex justify-between items-start"
+                      >
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+                          {{ app.name }}
+                        </h2>
+                        <span
+                          [class]="
+                            app.envType === 'UI'
+                              ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
+                              : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
+                          "
+                          class="text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider"
+                        >
+                          {{ app.envType }}
+                        </span>
+                      </div>
+
+                      <!-- Card Body -->
+                      <div class="p-5 flex-grow">
+                        <!-- URL Section -->
+                        <div class="flex flex-col mb-4">
+                          <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
+                            URL
+                          </h3>
+                          <div class="flex items-center space-x-2">
+                            <a
+                              [href]="app.url"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="text-blue-500 hover:text-blue-600 dark:hover:text-blue-400 truncate flex-grow"
+                              title="{{ app.url }}"
+                            >
+                              {{ app.url }}
+                            </a>
+                            <button
+                              (click)="copyToClipboard(app.url, app.name)"
+                              [attr.data-app-name]="app.name"
+                              class="copy-btn relative p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition-colors duration-200"
+                              title="Copy URL"
+                            >
+                              <span
+                                class="material-icons text-gray-600 dark:text-gray-300"
+                                style="font-size: 20px"
+                                >content_copy</span
+                              >
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Card Footer with Links -->
+                      <div
+                        class="p-5 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700"
+                      >
+                        <div class="flex items-center justify-end space-x-4">
+                          <a
+                            [href]="app.sourceCodeUrl"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-gray-500 hover:text-gray-800 dark:hover:text-white transition-colors duration-200"
+                            title="Source Code (GitHub)"
+                          >
+                            <span
+                              class="material-icons text-gray-500 hover:text-gray-800 dark:hover:text-white"
+                              style="font-size: 24px"
+                              >code</span
+                            >
+                          </a>
+                          <a
+                            [href]="app.jenkinsUrl"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-gray-500 hover:text-gray-800 dark:hover:text-white transition-colors duration-200"
+                            title="Jenkins Build"
+                          >
+                            <span
+                              class="material-icons text-gray-500 hover:text-gray-800 dark:hover:text-white"
+                              style="font-size: 24px"
+                              >open_in_new</span
+                            >
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                </div>
+
+                <!-- No Results Message -->
+                @if (group.apps.length === 0) {
+                  <div class="text-center py-10 px-6">
+                    <p class="text-lg text-gray-500 dark:text-gray-400">
+                      No applications found matching your search term.
+                    </p>
+                  </div>
+                }
+              </section>
+            }
+          </main>
+        </div>
+      </mat-tab>
+
+      <!-- Business Data Tab -->
+      <mat-tab label="Business Data">
+        <div class="tab-content">
+          <app-business-grid
+            [dataSource]="businessData"
+            [totalCount]="businessTotalCount"
+            [isLoading]="businessIsLoading"
+            [selectedChainId]="selectedBusinessChainId"
+            (onChainSelected)="onBusinessChainSelected($event)"
+          >
+          </app-business-grid>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>
