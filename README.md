@@ -17,6 +17,7 @@ A modern, responsive Angular application that provides a real-time overview of a
 - **TypeScript** - Type-safe development
 - **Tailwind CSS** - Utility-first CSS framework
 - **Angular Material** - Material Design components
+- **Splunk RUM** - Real User Monitoring for performance tracking
 - **ESLint + Prettier** - Code quality and formatting
 - **GitHub Actions** - CI/CD pipeline
 
@@ -81,6 +82,17 @@ src/
 ### Environment Configuration
 
 The application uses hardcoded data for demonstration. In production, replace the data in `src/app/services/application-data.service.ts` with real API calls.
+
+### Splunk RUM Monitoring
+
+This project includes Splunk Real User Monitoring (RUM) for tracking application performance and user experience metrics. To configure Splunk RUM:
+
+1. Get your RUM access token from Splunk Observability Cloud
+2. Update the configuration in `src/environments/environment.ts` (development) and `src/environments/environment.prod.ts` (production)
+3. Replace `YOUR_RUM_ACCESS_TOKEN` with your actual token
+4. Update the `realm` to match your Splunk account region
+
+For detailed setup instructions, see [SPLUNK_RUM_SETUP.md](SPLUNK_RUM_SETUP.md).
 
 ### Styling
 
